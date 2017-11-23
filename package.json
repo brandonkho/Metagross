@@ -1,0 +1,12 @@
+{
+  "name": "metagross",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "discord.io": "^2.5.3",
+    "winston": "^2.4.0"
+  }
+}
