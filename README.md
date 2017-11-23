@@ -1,0 +1,1 @@
+Discord bot to help organize pokemon battles in one of my groups
