@@ -15,6 +15,7 @@ var bot = new Discord.Client({
 
 var queue = [];
 var prefix = '!';
+var timer;
 
 bot.on('ready', function (evt) {
     logger.info('Connected');
@@ -39,9 +40,27 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     
                     bot.sendMessage({
                         to: channelID,
-                        message: `<@${queue[0]}> and <@${queue[1]}>`
+                        message: `<@${queue[0]}> and <@${queue[1]}> - time to battle!`
                     });
                     queue.splice(0, 2);
+                    clearTimeout(timer);
+                }else if(queue.length == 1){
+                    bot.sendMessage({
+                        to: channelID,
+                        message: `You have been added to the queue`
+                    });
+                    timer = setTimeout(() => { clearQueue(channelID); }, 60*60*1000);
+                }
+                break;
+
+            case 'quit':
+                if(queue[0] == userID){
+                    queue.splice(0);
+                    clearTimeout(timer);
+                    bot.sendMessage({
+                        to: channelID,
+                        message: `You have been removed from the queue`
+                    });
                 }
                 
             break;
@@ -49,3 +68,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
          }
      }
 });
+
+function clearQueue(channelID){
+    queue.splice(0);
+    bot.sendMessage({
+        to: channelID,
+        message: `Too much time has passed. You have been removed from the queue`
+    });
+}
